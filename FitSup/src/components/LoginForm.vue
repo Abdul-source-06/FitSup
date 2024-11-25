@@ -10,8 +10,8 @@
 
       <button type="submit" class="w-full p-2 bg-blue-500 text-white rounded-md">Login</button>
     </form>
-    
-  
+
+
   </div>
 </template>
 

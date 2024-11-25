@@ -5,10 +5,9 @@
       <p>Bienvenido a tu perfil</p>
     </div>
   </template>
-  
+
   <script>
   export default {
     name: 'Profile'
   }
   </script>
-  
