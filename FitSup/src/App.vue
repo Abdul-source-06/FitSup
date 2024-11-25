@@ -1,13 +1,17 @@
 <!-- src/App.vue -->
 <template>
   <div class="min-h-screen bg-gray-100 flex items-center justify-center">
-    <!-- Llamar al componente Login -->
+
     <Login />
+  </div>
+
+  <div>
+    <Profile />
   </div>
 </template>
 
 <script>
-// Importa el componente Login
+
 import Login from './components/Login.vue';
 
 export default {
