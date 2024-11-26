@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-center min-h-screen">
-    <form @submit.prevent="handleLogin" class="space-y-4">
-      <h2 class="text-3xl font-bold text-white flex justify-center animate-slideDown">Login</h2>
+    <form @submit.prevent="handleLogin" class="space-y-4 transform lg:translate-x-[-34%] sm:translate-x-0">
+      <h2 class="text-3xl font-bold text-white flex justify-center animate-slideDown mb-2">Login</h2>
       <label for="username" class="block mb-2 flex justify-center font-bold">Username</label>
       <input type="text" id="username" v-model="username"
         class="w-full p-2 mb-4 border border-gray-300 rounded-md text-black text-center" />
