@@ -20,22 +20,24 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+
 export default {
-    name: 'RegisterForm',
-    data() {
-        return {
-            username: '',
-            email: '',
-            password: ''
-        };
-    },
-    methods: {
-        handleRegister() {
-            console.log('Username:', this.username);
-            console.log('Email:', this.email);
-            console.log('Password:', this.password);
-            // Aquí puedes agregar la lógica para registrar al usuario
-        }
-    }
-}
+  name: 'Register',
+  setup() {
+    const username = ref('');
+    const password = ref('');
+
+    const handleRegister = () => {
+      console.log('Registrando:', username.value, password.value);
+      // Lógica de registro aquí
+    };
+
+    return {
+      username,
+      password,
+      handleRegister
+    };
+  }
+};
 </script>

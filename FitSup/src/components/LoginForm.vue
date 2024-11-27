@@ -20,26 +20,29 @@
 </template>
 
 <script>
-
+import { ref } from 'vue';
 import RegisterLink from '@/components/RegisterLink.vue';
 
 export default {
   name: 'LoginForm',
-  data() {
-    return {
-      username: '',
-      password: ''
-    };
-  },
-  methods: {
-    handleLogin() {
-      console.log('Usuario:', this.username);
-      console.log('Contraseña:', this.password);
-
-    }
-  },
   components: {
     RegisterLink
+  },
+  setup() {
+    const username = ref('');
+    const password = ref('');
+
+    const handleLogin = () => {
+      console.log('Usuario:', username.value);
+      console.log('Contraseña:', password.value);
+      // Lógica de inicio de sesión aquí
+    };
+
+    return {
+      username,
+      password,
+      handleLogin
+    };
   }
-}
+};
 </script>
