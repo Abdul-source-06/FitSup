@@ -8,6 +8,7 @@
       </header>
   
       <!-- Main content area -->
+      <main class="flex flex-1">
         <div class="container mx-auto p-4 w-full">
           <router-view />
         </div>
