@@ -19,7 +19,11 @@ const routes = [
     path: '/Register',
     name: 'Register',
     component: Register,
-  }
+  },
+  {
+    path: '/',
+    redirect: '/login'  // Redirige a /login por defecto
+  },
 ];
 
 const router = createRouter({
