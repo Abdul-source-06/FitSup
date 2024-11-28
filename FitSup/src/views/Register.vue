@@ -1,43 +1,38 @@
 <template>
-    <div class="min-h-screen flex flex-col lg:flex-row items-center justify-between" :style="{ backgroundColor: '#C02121' }">
-      <!-- Logo y letra F y S a la derecha -->
-      <div class="w-full lg:w-1/2 flex justify-center items-center mt-5 lg:mt-0">
-        <div class="text-10xl font-bold text-black-600 animate-slideDown flex justify-center items-center space-x-2">
-          <span class="text-11xl font-bold relative group lg:shadow-2xl" style="top: -0.5rem; left: 0rem;">
-            F
-            <span class="absolute left-10 top-[105%] opacity-0 transform translate-y-[-10px] lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-300 delay-300 text-2xl">i</span>
-            <span class="absolute left-10 top-[125%] opacity-0 transform translate-y-[-10px] lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-300 delay-400 text-2xl">t</span>
-          </span>
-          <div class="w-32 h-28">
-            <IconLogoLogin />
-          </div>
-          <span class="text-11xl font-bold relative group lg:shadow-2xl" style="top: -0.5rem; left: 0rem;">S
-            <span class="absolute left-10 top-[105%] opacity-0 transform translate-y-[-20px] lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-300 delay-300 text-2xl">u</span>
-            <span class="absolute left-10 top-[125%] opacity-0 transform translate-y-[-20px] lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-300 delay-400 text-2xl">p</span>
-          </span>
-        </div>
+  <div class="min-h-screen flex flex-col items-center justify-center" :style="{ backgroundColor: '#C02121' }">
+    <!-- Logo, letras F y S en la parte superior -->
+    <div class="text-black mb-4 flex justify-center items-center space-x-2 animate-slideDown">
+      <span class="text-11xl font-bold relative group shadow-2xl">
+        F
+      </span>
+      <div class="w-32 h-28">
+        <IconLogoLogin />
       </div>
-  
-      <!-- Formulario de registro a la izquierda -->
-      <div class="w-full lg:w-1/2 flex justify-center items-center p-6 lg:animate-slideLeft sm:animate-fadeIn mt-4 lg:mt-0">
-        <div class="w-full max-w-md">
-          <!-- Aquí se incluye el componente RegisterForm -->
-          <RegisterForm />
-        </div>
-      </div>
+      <span class="text-11xl font-bold relative grou shadow-2xl">
+        S
+      </span>
     </div>
-  </template>
-  
-  <script>
-  import RegisterForm from '@/components/RegisterForm.vue'; // Importar el componente RegisterForm
-  import IconLogoLogin from '@/components/icons/IconLogoLogin.vue'; // Asegúrate de que el icono esté importado
-  
-  export default {
-    name: 'Register',
-    components: {
-      RegisterForm,
-      IconLogoLogin
-    }
-  };
-  </script>
-  
+
+    <!-- Formulario de registro debajo del logo y las letras -->
+    <div class="w-full p-6 lg:animate-slideLeft sm:animate-fadeIn">
+      <RegisterForm />
+    </div>
+  </div>
+</template>
+
+<script>
+import RegisterForm from '@/components/RegisterForm.vue'; 
+import IconLogoLogin from '@/components/icons/IconLogoLogin.vue'; 
+
+export default {
+  name: 'Register',
+  components: {
+    RegisterForm,
+    IconLogoLogin
+  }
+};
+</script>
+
+<style scoped>
+
+</style>
