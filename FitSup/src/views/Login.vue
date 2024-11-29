@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import RegisterLink from '@/components/RegisterLink.vue';
 import LoginForm from '../components/LoginForm.vue';
 import IconLogoLogin from '@/components/icons/IconLogoLogin.vue';
 
