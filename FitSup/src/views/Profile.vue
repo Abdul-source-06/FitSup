@@ -11,11 +11,7 @@
       <ProfileCard />
     </div>
 
-    <!-- Profile Info -->
-    <div class="profile-info mt-10 text-center text-white">
-      <h2 class="text-3xl font-bold">Benvingut, Usuari!</h2>
-      <p class="text-lg">Barcelona, 25 anys</p>
-    </div>
+
   </div>
 </template>
 
@@ -50,7 +46,7 @@ export default {
 /* Global Styles */
 .profile-page {
   font-family: "Poppins", sans-serif;
-  background-color: #f15322;
+  background-color: #ec3300;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
