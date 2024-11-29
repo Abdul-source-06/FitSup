@@ -2,13 +2,13 @@
   <div class="min-h-screen flex flex-col items-center justify-center" :style="{ backgroundColor: '#C02121' }">
     <!-- Logo, letras F y S en la parte superior -->
     <div class="text-black mb-4 flex justify-center items-center space-x-2 animate-slideDown">
-      <span class="text-11xl font-bold relative group shadow-2xl">
+      <span class="text-11xl font-bold relative group lg:shadow-2xl">
         F
       </span>
       <div class="w-32 h-28">
         <IconLogoLogin />
       </div>
-      <span class="text-11xl font-bold relative grou shadow-2xl">
+      <span class="text-11xl font-bold relative grou lg:shadow-2xl">
         S
       </span>
     </div>
