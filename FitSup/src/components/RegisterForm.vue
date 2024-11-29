@@ -2,18 +2,18 @@
   <auth-layout>
     <div class="register-form p-16 rounded-lg shadow-lg w-full mx-auto" :style="{ backgroundColor: '#C02121' }">
       <form @submit.prevent="submitForm" class="space-y-4">
-        <div class="grid grid-cols-2 gap-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
           <div>
-            <label for="username" class="block mb-2 font-bold text-white">Username</label>
+            <label for="username" class="block mb-2 font-bold text-black">Username</label>
             <input type="text" id="username" v-model="username" class="w-full p-2 border border-gray-300 rounded-md" />
           </div>
           <div>
-            <label for="email" class="block mb-2 font-bold text-white">Email</label>
+            <label for="email" class="block mb-2 font-bold text-black">Email</label>
             <input type="email" id="email" v-model="email" class="w-full p-2 border border-gray-300 rounded-md" />
           </div>
         </div>
         <div>
-          <label for="password" class="block mb-2 font-bold text-white">Password</label>
+          <label for="password" class="block mb-2 font-bold text-black">Password</label>
           <input type="password" id="password" v-model="password" class="w-full p-2 border border-gray-300 rounded-md" />
         </div>
         <button
