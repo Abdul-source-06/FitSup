@@ -8,12 +8,9 @@
 
 
 export default {
-  name: 'MenuView',
+  name: 'Menu',
 };
 </script>
 
 <style scoped>
-.menu {
-  /* Add your component styles here */
-}
 </style>
