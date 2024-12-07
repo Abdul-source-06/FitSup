@@ -1,33 +1,41 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import Login from '../views/Login.vue';
-import Profile from '../views/Profile.vue';
-import Register from '../views/Register.vue';
-
+import { createRouter, createWebHistory } from "vue-router";
+import MainLayout from "@/components/layouts/MainLayout.vue";
+import Home from "@/views/Menu.vue";
+import Register from "@/views/Register.vue";
+import Profile from "@/views/Profile.vue";
+import Payment from "@/views/Payment.vue";
 
 const routes = [
   {
-    path: '/Login', 
-    name: 'Login',
-    component: Login
-  },
-  {
-    path: '/Profile',  
-    name: 'Profile',
-    component: Profile
-  },
-  {
-    path: '/Register',
-    name: 'Register',
-    component: Register,
-  },
-  {
-    path: '/',
-    redirect: '/login'  // Redirige a /login por defecto
+    path: "/",
+    component: MainLayout,
+    children: [
+      {
+        path: "",
+        name: "Home",
+        component: Home,
+      },
+      {
+        path: "register",
+        name: "Register",
+        component: Register,
+      },
+      {
+        path: "profile",
+        name: "Profile",
+        component: Profile,
+      },
+      {
+        path: "payment",
+        name: "Payment",
+        component: Payment,
+      },
+    ],
   },
 ];
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(process.env.BASE_URL),
   routes,
 });
 
