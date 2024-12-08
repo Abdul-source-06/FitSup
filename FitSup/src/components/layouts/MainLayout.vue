@@ -1,5 +1,5 @@
 <template>
-  <div :style="{ backgroundColor: '#C02121' }" class="min-h-screen">
+  <div class="min-h-screen">
     <!-- Navbar -->
     <NavigationBar />
 

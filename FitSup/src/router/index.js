@@ -4,6 +4,7 @@ import Home from "@/views/Menu.vue";
 import Register from "@/views/Register.vue";
 import Profile from "@/views/Profile.vue";
 import Payment from "@/views/Payment.vue";
+import Login from "@/views/Login.vue";
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
         name: "Payment",
         component: Payment,
       },
+      {
+        path: "login",
+        name: "Login",
+        component: Login,
+      }
     ],
   },
 ];
