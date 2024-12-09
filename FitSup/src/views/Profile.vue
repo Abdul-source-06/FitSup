@@ -1,8 +1,11 @@
 <template>
-  <div class="profile-page flex flex-col items-center justify-center min-h-screen bg-[#F15322]">
-    <!-- Header -->
+  <div class="profile-page flex flex-col items-center justify-center min-h-screen bg-[#ec3300]">
+    <!-- Header / Navbar -->
     <header class="flex justify-between items-center w-full px-6 mb-10">
-      <div class="text-3xl font-bold text-white">FØS</div>
+      <!-- Icono en vez de texto (tamaño pequeño) -->
+      <div class="w-[45px] h-[80px]">
+        <Icono />
+      </div>
       <div class="menu-icon text-4xl text-white cursor-pointer">☰</div>
     </header>
 
@@ -10,17 +13,18 @@
     <div class="profile-card-container animate-slide-up w-full md:w-4/5 lg:w-3/4">
       <ProfileCard />
     </div>
-
-
   </div>
 </template>
 
 <script>
+// Importar el componente del icono
+import Icono from "@/components/icons/IconLogoLogin.vue";
 import ProfileCard from "@/components/ProfileCard.vue";
 
 export default {
   name: "ProfileView",
   components: {
+    Icono,
     ProfileCard,
   },
 };
@@ -43,40 +47,8 @@ export default {
   animation: slide-up 1.2s ease-out;
 }
 
-/* Global Styles */
-.profile-page {
-  font-family: "Poppins", sans-serif;
-  background-color: #ec3300;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.menu-icon {
-  font-size: 2rem;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
+/* Styles for menu icon hover effect */
 .menu-icon:hover {
   transform: rotate(90deg);
-}
-
-/* Profile Card Styles */
-.profile-card-container {
-  width: 100%;
-  max-width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 </style>
