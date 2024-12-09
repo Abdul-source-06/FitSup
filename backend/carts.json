@@ -1,3 +1,14 @@
 [
-
+  {
+    "username": "usuarioPrueba",
+    "products": [
+      {
+        "id": 2,
+        "name": "Creatina",
+        "description": "Mejora el rendimiento físico y fuerza.",
+        "price": 19.99,
+        "image": "https://via.placeholder.com/150"
+      }
+    ]
+  }
 ]
