@@ -70,8 +70,8 @@ export default {
 /* Cabecera del perfil */
 .profile-header {
   display: flex;
-  justify-content: flex-start; 
-  gap: 1rem; 
+  justify-content: flex-start;
+  gap: 1rem;
 }
 
 .header-content {
@@ -82,7 +82,7 @@ export default {
 }
 
 .welcome-section {
-  margin-left: 1rem; 
+  margin-left: 1rem;
   flex: 1;
 }
 
@@ -146,16 +146,16 @@ export default {
 
 @media (min-width: 768px) {
   .profile-header {
-    flex-direction: row; 
+    flex-direction: row;
   }
 }
 
 /* Diseño para móviles */
 @media (max-width: 767px) {
   .profile-header {
-    flex-direction: column; 
-    align-items: center; 
-    text-align: center; 
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 }
 
