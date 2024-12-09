@@ -7,6 +7,8 @@ import Payment from "@/views/Payment.vue";
 import Login from "@/views/Login.vue";
 import Cesta from "@/views/Cesta.vue";
 
+
+
 const routes = [
   {
     path: "/",
@@ -48,6 +50,7 @@ const routes = [
       },
     ],
   },
+
 ];
 
 const router = createRouter({
