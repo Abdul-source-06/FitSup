@@ -6,8 +6,7 @@ import Profile from "@/views/Profile.vue";
 import Payment from "@/views/Payment.vue";
 import Login from "@/views/Login.vue";
 import Cesta from "@/views/Cesta.vue";
-
-
+import AboutUs from "@/views/AboutUs.vue"; // Importa la vista AboutUs
 
 const routes = [
   {
@@ -48,9 +47,13 @@ const routes = [
         name: "Cesta",
         component: Cesta,
       },
+      {
+        path: "about-us",  // Nueva ruta para About Us
+        name: "AboutUs",
+        component: AboutUs,
+      },
     ],
   },
-
 ];
 
 const router = createRouter({
