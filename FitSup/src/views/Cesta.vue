@@ -1,118 +1,80 @@
 <template>
-    <div class="cart-page">
-      <h1 class="page-title">🛒 La teva Cistella</h1>
-      <div v-if="cartItems.length > 0">
-        <div class="cart-items">
-          <CartItem
-            v-for="item in cartItems"
-            :key="item.id"
-            :item="item"
-            @update-quantity="updateQuantity"
-            @remove-item="removeItem"
-          />
-        </div>
-        <CartSummary
-          :total-items="totalItems"
-          :total-price="totalPrice"
-          @checkout="checkout"
-        />
-      </div>
-      <p v-else class="empty-cart">La cistella està buida 🛍️</p>
+  <div class="max-w-7xl mx-auto py-8 px-4">
+    <h1 class="text-4xl font-bold text-center mb-6 text-black">Mi Cesta</h1>
+
+    <!-- Mensaje si la cesta está vacía -->
+    <div v-if="cart.length === 0" class="text-center text-xl text-white">
+      <p>No tienes productos en la cesta.</p>
     </div>
-  </template>
-  
-  <script>
-  import CartItem from "@/components/CartItem.vue";
-  import CartSummary from "@/components/CartSummary.vue";
-  import axios from 'axios';
-  
-  export default {
-    name: "cesta",
-    components: {
-      CartItem,
-      CartSummary,
-    },
-    data() {
-      return {
-        cartItems: [], // Inicializamos la cesta como vacía
-      };
-    },
-    computed: {
-      totalItems() {
-        return this.cartItems.reduce((total, item) => total + item.quantity, 0);
-      },
-      totalPrice() {
-        return this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-      },
-    },
-    mounted() {
-      // Aquí hacemos la petición a la API para obtener los productos de la cesta del usuario
-      this.fetchCartItems();
-    },
-    methods: {
-      async fetchCartItems() {
-        const username = 'usuarioPrueba'; // O usa un valor dinámico para obtener el nombre del usuario
-        
-        try {
-          const response = await axios.get(`http://localhost:3000/cart/${username}`);
-          if (response.data && Array.isArray(response.data)) {
-            this.cartItems = response.data;
-          } else {
-            console.error('No se encontraron productos en la cesta.');
+
+    <!-- Lista de productos en la cesta -->
+    <div v-else>
+      <div v-for="product in cart" :key="product.id" class="flex items-center border-b border-gray-300 py-4">
+        <img :src="product.image" :alt="product.name" class="w-24 h-24 object-cover rounded-md shadow-md mr-4" />
+        <div class="flex-1">
+          <h2 class="text-xl font-semibold text-gray-800">{{ product.name }}</h2>
+          <p class="text-gray-600 mt-2">{{ product.description }}</p>
+          <p class="text-lg font-bold text-gray-900 mt-2">Precio: ${{ product.price.toFixed(2) }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botón para limpiar la cesta -->
+    <div v-if="cart.length > 0" class="mt-6 flex justify-center">
+      <button 
+        @click="clearCart" 
+        class="px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-200"
+      >
+        Limpiar Cesta
+      </button>
+    </div>
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  name: 'Cesta',
+  data() {
+    return {
+      cart: [],
+      username: 'usuarioEjemplo', // Aquí debes obtener el nombre de usuario de manera dinámica, por ejemplo, con login
+    };
+  },
+  mounted() {
+    this.loadCart();
+  },
+  methods: {
+    loadCart() {
+      axios.get(`http://localhost:3000/carts?username=${this.username}`)
+        .then(response => {
+          if (response.data.length > 0) {
+            this.cart = response.data[0].products;
           }
-        } catch (error) {
-          console.error('Error al obtener los productos de la cesta:', error.response?.data?.message || error.message);
-        }
-      },
-      updateQuantity({ id, change }) {
-        const item = this.cartItems.find((item) => item.id === id);
-        if (item) {
-          item.quantity += change;
-        }
-      },
-      removeItem(id) {
-        this.cartItems = this.cartItems.filter((item) => item.id !== id);
-      },
-      checkout() {
-        alert("Compra finalitzada!");
-        this.cartItems = [];
-      },
+        })
+        .catch(error => {
+          console.error('Error al cargar la cesta:', error);
+        });
     },
-  };
-  </script>
-  
-  <style scoped>
-  .cart-page {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 16px;
-    font-family: "Arial", sans-serif;
-  }
-  
-  .page-title {
-    text-align: center;
-    color: #ff5722;
-    margin-bottom: 20px;
-  }
-  
-  .cart-items {
-    margin-bottom: 24px;
-  }
-  
-  .empty-cart {
-    text-align: center;
-    font-size: 18px;
-    color: #888;
-  }
-  
-  @media (max-width: 768px) {
-    .cart-item {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .cart-item-image {
-      margin-bottom: 10px;
+    addToCart(product) {
+      const data = {
+        username: this.username,
+        product: product,
+      };
+
+      axios.post('http://localhost:3000/cesta', data)
+        .then(response => {
+          console.log('Producto añadido a la cesta:', response.data);
+          this.loadCart(); // Recargar la cesta después de añadir el producto
+        })
+        .catch(error => {
+          console.error('Error al añadir el producto a la cesta:', error);
+        });
+    },
+    clearCart() {
+      // Lógica para limpiar la cesta (si es necesario)
     }
   }
-  </style>
-  
+};
+</script>
