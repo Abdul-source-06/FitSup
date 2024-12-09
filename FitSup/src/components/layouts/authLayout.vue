@@ -8,6 +8,6 @@
   
   <script>
 export default {
-  name: 'AuthLayout'
+  name: 'Cesta'
 };
 </script>

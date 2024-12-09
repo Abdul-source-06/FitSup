@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto py-8 px-4">
-    <h1 class="text-4xl font-bold mb-8 text-center">Mejores Suplementos!</h1>
+    <h1 class="text-4xl font-bold mb-8 text-center zoom-animation">Mejores Suplementos!</h1>
     <search-bar :searchQuery="searchQuery" @update:searchQuery="searchQuery = $event" />
     <product-list :products="filteredProducts" />
   </div>
@@ -52,4 +52,15 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+
+@keyframes zoomInOut {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.zoom-animation {
+  animation: zoomInOut 2s ease-in-out infinite;
+}
+</style>
