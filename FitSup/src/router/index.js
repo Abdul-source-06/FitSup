@@ -55,11 +55,7 @@ const routes = [
       }
     ],
   },
-  {
-    path: '/Menu',
-    name: 'Menu',
-    component: Menu,
-  }
+
 ];
 
 const router = createRouter({
