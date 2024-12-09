@@ -6,6 +6,8 @@ import Profile from "@/views/Profile.vue";
 import Payment from "@/views/Payment.vue";
 import Login from "@/views/Login.vue";
 
+
+
 const routes = [
   {
     path: "/",
