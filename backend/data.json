@@ -3,5 +3,10 @@
     "username": "abdul",
     "email": "asadiq@inscastellet.cat",
     "password": "hola"
+  },
+  {
+    "username": "pepe",
+    "email": "pepe@gmail.com",
+    "password": "pepe"
   }
 ]
