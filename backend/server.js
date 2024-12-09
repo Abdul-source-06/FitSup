@@ -27,7 +27,6 @@ app.get('/users', (req, res) => {
 app.post('/register', (req, res) => {
   const { username, email, password } = req.body;
 
-  // Validar que todos los campos estén presentes
   if (!username || !email || !password) {
     return res.status(400).json({ message: 'Todos los campos son obligatorios' });
   }
@@ -44,13 +43,81 @@ app.post('/register', (req, res) => {
       fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
     }
 
-    // Añadir el nuevo usuario a la lista
     data.push(newUser);
     fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
 
     res.status(201).json({ message: 'Usuario registrado con éxito', user: newUser });
   } catch (error) {
     res.status(500).json({ message: "Error al guardar el usuario", error: error.message });
+  }
+});
+
+// Ruta para obtener los productos en la cesta de un usuario
+// Ruta para obtener los productos en la cesta de un usuario
+app.get('/cart/:username', (req, res) => {
+  const { username } = req.params;
+  const cartFilePath = path.join(__dirname, 'carts.json');
+
+  try {
+    let carts = [];
+
+    if (fs.existsSync(cartFilePath)) {
+      carts = JSON.parse(fs.readFileSync(cartFilePath, 'utf8'));
+    }
+
+    // Buscar la cesta del usuario
+    const userCart = carts.find(cart => cart.username === username);
+
+    if (userCart) {
+      res.json(userCart.products); // Devuelve los productos en la cesta
+    } else {
+      res.status(404).json({ message: 'No se encontró la cesta para este usuario' });
+    }
+
+  } catch (error) {
+    res.status(500).json({ message: "Error al leer la cesta", error: error.message });
+  }
+});
+
+// Ruta para agregar un producto a la cesta de un usuario
+app.post('/cesta', (req, res) => {
+  const { username, product } = req.body;
+
+  // Verifica que los datos recibidos son correctos
+  console.log('Datos recibidos:', req.body); // Verifica la estructura de los datos
+
+  // Asegúrate de que el producto contiene todos los campos necesarios
+  if (!username || !product || !product.id || !product.name || !product.price || !product.image) {
+    return res.status(400).json({ message: 'Datos incompletos para agregar el producto a la cesta' });
+  }
+
+  const cartFilePath = path.join(__dirname, 'carts.json');
+  let carts = [];
+
+  try {
+    if (fs.existsSync(cartFilePath)) {
+      carts = JSON.parse(fs.readFileSync(cartFilePath, 'utf8'));
+    }
+
+    // Buscar la cesta del usuario
+    let userCart = carts.find(cart => cart.username === username);
+
+    if (!userCart) {
+      // Si no existe la cesta para el usuario, crear una nueva
+      userCart = { username, products: [] };
+      carts.push(userCart);
+    }
+
+    // Añadir el producto a la cesta
+    userCart.products.push(product);
+
+    // Guardar los cambios en el archivo carts.json
+    fs.writeFileSync(cartFilePath, JSON.stringify(carts, null, 2));
+
+    res.status(201).json({ message: 'Producto añadido a la cesta con éxito' });
+
+  } catch (error) {
+    res.status(500).json({ message: "Error al agregar el producto a la cesta", error: error.message });
   }
 });
 

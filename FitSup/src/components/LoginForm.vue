@@ -59,7 +59,7 @@ export default {
 
         if (user) {
           // Si las credenciales son correctas, redirigir al menú
-          router.push('/');  // Redirige a la ruta Home (Menú)
+          router.push('/home');  // Redirige a la ruta Home
         } else {
           // Si el usuario no se encuentra o la contraseña es incorrecta
           errorMessage.value = 'Nombre de usuario o contraseña incorrectos.';

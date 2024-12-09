@@ -1,33 +1,33 @@
 <template>
-  <div class="min-h-screen">
-    <!-- Navbar -->
-    <NavigationBar />
+  <div>
+    <!-- Mostrar el Navbar solo si no estamos en la página de Login o Register -->
+    <NavigationBar v-if="!isLoginPage && !isRegisterPage" />
 
-    <!-- Contenido principal -->
-    <main class="pt-24"> <!-- pt-24 agrega espacio superior para que no se superponga al navbar -->
-      <router-view></router-view>
-    </main>
+    <!-- Contenido de la página (router-view) -->
+    <router-view />
   </div>
 </template>
 
 <script>
+import { computed } from "vue";
+import { useRoute } from "vue-router"; // Importamos useRoute para acceder a la ruta actual
 import NavigationBar from "@/components/NavigationBar.vue";
 
 export default {
-  name: "MainLayout",
   components: {
     NavigationBar,
   },
+  setup() {
+    const route = useRoute(); // Obtenemos el objeto de la ruta actual
+
+    // Computed properties para verificar si estamos en la página de login o register
+    const isLoginPage = computed(() => route.path === "/login");
+    const isRegisterPage = computed(() => route.path === "/register");
+
+    return {
+      isLoginPage,
+      isRegisterPage,
+    };
+  },
 };
 </script>
-
-<style scoped>
-/*El navbar sea fijo en la parte superior */
-nav {
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 10;
-}
-</style>
