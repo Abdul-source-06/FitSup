@@ -1,59 +1,104 @@
 <template>
   <div class="container mx-auto py-8 px-4">
-    <h1 class="text-4xl font-bold mb-8 text-center zoom-animation">Mejores Suplementos!</h1>
+    <h1 class="text-4xl font-bold mb-8 text-center zoom-animation">¡Mejores Suplementos!</h1>
+    
+    <!-- Filtro de búsqueda -->
     <search-bar :searchQuery="searchQuery" @update:searchQuery="searchQuery = $event" />
-    <product-list :products="filteredProducts" />
-  </div>
 
+    <!-- Lista de productos -->
+    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-6">
+      <product-card 
+        v-for="product in filteredProducts" 
+        :key="product.id" 
+        :product="product" 
+        @product-clicked="openProductDetail" 
+      />
+    </div>
+
+    <!-- Cuadro de detalles de producto (oculto inicialmente) -->
+    <div v-if="selectedProduct" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div class="bg-white p-6 rounded-lg max-w-md w-full">
+        <h2 class="text-2xl font-semibold text-gray-800">{{ selectedProduct.name }}</h2>
+        <img :src="selectedProduct.image" alt="Imagen de producto" class="w-full h-48 object-cover rounded-md mt-4" />
+        <p class="text-gray-600 mt-4">{{ selectedProduct.description }}</p>
+        <p class="font-bold text-gray-900 mt-2">${{ selectedProduct.price }}</p>
+        
+        <!-- Botón de compra -->
+        <button @click="buyProduct" class="mt-4 bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600 transition duration-200">
+          Comprar
+        </button>
+        
+        <!-- Botón de cerrar -->
+        <button @click="closeProductDetail" class="mt-4 text-gray-500 hover:text-gray-700">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import { ref, computed } from 'vue';
-
 import SearchBar from '@/components/SearchBar.vue';
-import ProductList from '@/components/ProductList.vue';
+import ProductCard from '@/components/ProductCard.vue';
 
 export default {
   name: 'Home',
   components: {
-
     SearchBar,
-    ProductList,
+    ProductCard,
   },
   setup() {
     const searchQuery = ref('');
     const products = ref([
-      { id: 1, name: 'Producto 1', description: 'Descripción del producto 1', price: 10.99, image: 'https://via.placeholder.com/150' },
-      { id: 2, name: 'Producto 2', description: 'Descripción del producto 2', price: 12.99, image: 'https://via.placeholder.com/150' },
-      { id: 3, name: 'Producto 3', description: 'Descripción del producto 3', price: 14.99, image: 'https://via.placeholder.com/150' },
-      { id: 4, name: 'Producto 4', description: 'Descripción del producto 4', price: 8.99, image: 'https://via.placeholder.com/150' },
-      { id: 5, name: 'Producto 5', description: 'Descripción del producto 5', price: 11.99, image: 'https://via.placeholder.com/150' },
-      { id: 6, name: 'Producto 6', description: 'Descripción del producto 6', price: 9.99, image: 'https://via.placeholder.com/150' },
-      { id: 7, name: 'Producto 7', description: 'Descripción del producto 7', price: 15.99, image: 'https://via.placeholder.com/150' },
-      { id: 8, name: 'Producto 8', description: 'Descripción del producto 8', price: 13.99, image: 'https://via.placeholder.com/150' },
-      { id: 9, name: 'Producto 9', description: 'Descripción del producto 9', price: 7.99, image: 'https://via.placeholder.com/150' },
-      { id: 10, name: 'Producto 10', description: 'Descripción del producto 10', price: 6.99, image: 'https://via.placeholder.com/150' },
-      { id: 11, name: 'Producto 11', description: 'Descripción del producto 11', price: 13.99, image: 'https://via.placeholder.com/150' },
-      { id: 12, name: 'Producto 12', description: 'Descripción del producto 12', price: 40.99, image: 'https://via.placeholder.com/150' }
+      { id: 1, name: 'Proteína Whey', description: 'Proteína de alta calidad para crecimiento muscular.', price: 29.99, image: 'https://via.placeholder.com/150' },
+      { id: 2, name: 'Creatina', description: 'Mejora el rendimiento físico y fuerza.', price: 19.99, image: 'https://via.placeholder.com/150' },
+      { id: 3, name: 'BCAA', description: 'Aminoácidos de cadena ramificada para recuperación.', price: 15.99, image: 'https://via.placeholder.com/150' },
+      { id: 4, name: 'Multivitaminas', description: 'Vitaminas esenciales para la salud general.', price: 12.99, image: 'https://via.placeholder.com/150' },
+      { id: 5, name: 'Omega 3', description: 'Aceite de pescado para la salud cardiovascular.', price: 18.99, image: 'https://via.placeholder.com/150' },
+      { id: 6, name: 'Glutamina', description: 'Recuperación muscular y prevención de catabolismo.', price: 24.99, image: 'https://via.placeholder.com/150' },
+      { id: 7, name: 'Pre-entrenamiento', description: 'Energía y enfoque para tu entrenamiento.', price: 22.99, image: 'https://via.placeholder.com/150' },
+      { id: 8, name: 'Caseína', description: 'Proteína de absorción lenta para la noche.', price: 34.99, image: 'https://via.placeholder.com/150' },
     ]);
 
+    const selectedProduct = ref(null);
+    
+    // Filtro de productos según la búsqueda
     const filteredProducts = computed(() =>
       products.value.filter(product =>
         product.name.toLowerCase().includes(searchQuery.value.toLowerCase())
       )
     );
 
+    // Abrir cuadro de detalles del producto
+    const openProductDetail = (product) => {
+      selectedProduct.value = product;
+    };
+
+    // Cerrar cuadro de detalles del producto
+    const closeProductDetail = () => {
+      selectedProduct.value = null;
+    };
+
+    // Acción de compra
+    const buyProduct = () => {
+      alert(`Producto ${selectedProduct.value.name} comprado!`);
+      closeProductDetail();
+    };
+
     return {
       searchQuery,
-      products,
       filteredProducts,
+      selectedProduct,
+      openProductDetail,
+      closeProductDetail,
+      buyProduct,
     };
   },
 };
 </script>
 
 <style scoped>
-
 @keyframes zoomInOut {
   0% { transform: scale(1); }
   50% { transform: scale(1.1); }
