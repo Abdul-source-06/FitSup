@@ -6,19 +6,14 @@
     <img 
       :src="product.image" 
       :alt="product.name" 
-      class="w-full h-48 object-cover rounded-md mb-4" 
+      class="w-[50%] h-auto object-cover rounded-md mb-4" 
     />
     <h2 class="text-xl font-semibold text-gray-800">{{ product.name }}</h2>
     <p class="text-gray-600 mb-2">{{ product.description }}</p>
     <p class="font-bold text-gray-900">${{ product.price }}</p>
 
-    <!-- Botón para añadir a la cesta -->
-    <button 
-      @click="addToCart" 
-      class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4"
-    >
-      Añadir a la cesta
-    </button>
+
+
   </div>
 </template>
 

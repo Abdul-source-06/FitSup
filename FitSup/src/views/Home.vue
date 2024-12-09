@@ -1,14 +1,14 @@
 <template>
   <div class="container mx-auto py-8 px-4">
-    <!-- Mostrar nombre del usuario -->
-    <div v-if="username" class="text-center text-4xl font-bold mb-4">
-      ¡Hola, {{ username }}!
-    </div>
-
-    <h1 class="text-3xl font-bold mb-8 text-center zoom-animation">¡Mejores Suplementos!</h1>
 
     <!-- Filtro de búsqueda -->
     <search-bar :searchQuery="searchQuery" @update:searchQuery="searchQuery = $event" />
+
+    <h1 class="text-4xl font-extrabold text-center mb-8 text-white shadow-xl transform transition-all duration-700 ease-in-out animate-fadeIn bg-black p-8 rounded-lg">
+  ¡Los mejores Suplementos!
+</h1>
+
+
 
     <!-- Lista de productos -->
     <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-6">
@@ -24,7 +24,7 @@
     <div v-if="selectedProduct" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div class="bg-white p-6 rounded-lg max-w-md w-full">
         <h2 class="text-2xl font-semibold text-gray-800">{{ selectedProduct.name }}</h2>
-        <img :src="selectedProduct.image" alt="Imagen de producto" class="w-full h-48 object-cover rounded-md mt-4" />
+        <img :src="selectedProduct.image" alt="Imagen de producto" class="w-full h-auto object-contain rounded-md mt-4" />
         <p class="text-gray-600 mt-4">{{ selectedProduct.description }}</p>
         <p class="font-bold text-gray-900 mt-2">${{ selectedProduct.price }}</p>
 
@@ -61,14 +61,14 @@ export default {
     const searchQuery = ref('');
     const username = ref(localStorage.getItem('username')); // Obtener el nombre de usuario de localStorage
     const products = ref([
-      { id: 1, name: 'Proteína Whey', description: 'Proteína de alta calidad para crecimiento muscular.', price: 29.99, image: '/fotos/whey.avif' },
+      { id: 1, name: 'Proteína Whey', description: 'Proteína de alta calidad para crecimiento muscular.', price: 29.99, image: '/fotos/whey.webp' },
       { id: 2, name: 'Creatina', description: 'Mejora el rendimiento físico y fuerza.', price: 19.99, image: '/fotos/creatina.jpg' },
-      { id: 3, name: 'BCAA', description: 'Aminoácidos de cadena ramificada para recuperación.', price: 15.99, image: 'https://via.placeholder.com/150' },
-      { id: 4, name: 'Multivitaminas', description: 'Vitaminas esenciales para la salud general.', price: 12.99, image: 'https://via.placeholder.com/150' },
-      { id: 5, name: 'Omega 3', description: 'Aceite de pescado para la salud cardiovascular.', price: 18.99, image: 'https://via.placeholder.com/150' },
-      { id: 6, name: 'Glutamina', description: 'Recuperación muscular y prevención de catabolismo.', price: 24.99, image: 'https://via.placeholder.com/150' },
-      { id: 7, name: 'Pre-entrenamiento', description: 'Energía y enfoque para tu entrenamiento.', price: 22.99, image: 'https://via.placeholder.com/150' },
-      { id: 8, name: 'Caseína', description: 'Proteína de absorción lenta para la noche.', price: 34.99, image: 'https://via.placeholder.com/150' },
+      { id: 3, name: 'BCAA', description: 'Aminoácidos de cadena ramificada para recuperación.', price: 15.99, image: '/fotos/BCAA.avif' },
+      { id: 4, name: 'Multivitaminas', description: 'Vitaminas esenciales para la salud general.', price: 12.99, image: '/fotos/Multivitaminas.jpg' },
+      { id: 5, name: 'Omega 3', description: 'Aceite de pescado para la salud cardiovascular.', price: 18.99, image: '/fotos/omega3.avif' },
+      { id: 6, name: 'Glutamina', description: 'Recuperación muscular y prevención de catabolismo.', price: 24.99, image: '/fotos/glutamina.avif' },
+      { id: 7, name: 'Pre-entrenamiento', description: 'Energía y enfoque para tu entrenamiento.', price: 22.99, image: '/fotos/pre.jpg' },
+      { id: 8, name: 'Caseína', description: 'Proteína de absorción lenta para la noche.', price: 34.99, image: '/fotos/caseina.avif' },
     ]);
     const selectedProduct = ref(null);
     const isLoggedIn = ref(false); // Para saber si el usuario está logueado
@@ -176,3 +176,19 @@ export default {
   },
 };
 </script>
+
+<style>
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px); /* Empieza un poco más abajo */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); /* Llega a su posición normal */
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease-out forwards;
+}</style>

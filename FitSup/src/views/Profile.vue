@@ -3,9 +3,7 @@
     <!-- Header / Navbar -->
     <header class="flex justify-between items-center w-full px-6 mb-10">
       <!-- Icono en vez de texto (tamaño pequeño) -->
-      <div class="w-[45px] h-[80px]">
-        <Icono />
-      </div>
+      
 
     </header>
 
