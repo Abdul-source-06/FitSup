@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import MainLayout from "@/components/layouts/MainLayout.vue";
-import Home from "@/views/Menu.vue";
+import Home from "@/views/Home.vue";
 import Register from "@/views/Register.vue";
 import Profile from "@/views/Profile.vue";
 import Payment from "@/views/Payment.vue";

@@ -16,7 +16,7 @@
         class="hidden flex-col items-center md:flex md:flex-row md:space-x-24 mt-4 md:mt-0 md:mx-auto fixed inset-0 md:static justify-center bg-black bg-opacity-70 md:bg-transparent p-4 md:p-0 transition-all duration-300 ease-in-out"
       >
         <li class="uppercase py-2 hover:scale-110 transform transition-all duration-200">
-          <router-link to="/" class="hover:text-gray-400" @click.native="closeMenu">Menu</router-link>
+          <router-link to="/" class="hover:text-gray-400" @click.native="closeMenu">Home</router-link>
         </li>
         <li class="uppercase py-2 hover:scale-110 transform transition-all duration-200">
           <router-link to="/profile" class="hover:text-gray-400" @click.native="closeMenu">Perfil</router-link>

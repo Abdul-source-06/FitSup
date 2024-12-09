@@ -6,7 +6,7 @@
       <div class="w-[45px] h-[80px]">
         <Icono />
       </div>
-      <div class="menu-icon text-4xl text-white cursor-pointer">☰</div>
+
     </header>
 
     <!-- Profile Card -->
