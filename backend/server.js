@@ -7,11 +7,11 @@ const port = 3000;
 
 app.use(cors({
   origin: 'http://localhost:5173',  // Solo permite solicitudes desde tu frontend en el puerto 5173
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'PUT'],  // Permite GET, POST y PUT para tus rutas
   allowedHeaders: ['Content-Type']
 }));
 
-app.use(express.json()); // Para parsear el cuerpo de las solicitudes como JSON
+app.use(express.json());  // Para parsear el cuerpo de las solicitudes como JSON
 
 // Ruta para obtener los usuarios
 app.get('/users', (req, res) => {
@@ -52,9 +52,8 @@ app.post('/register', (req, res) => {
   }
 });
 
-// Ruta para obtener los productos en la cesta de un usuario
-// Ruta para obtener los productos en la cesta de un usuario
-app.get('/cart/:username', (req, res) => {
+// Ruta para obtener la cesta de un usuario
+app.get('/cesta/:username', (req, res) => {
   const { username } = req.params;
   const cartFilePath = path.join(__dirname, 'carts.json');
 
@@ -79,14 +78,11 @@ app.get('/cart/:username', (req, res) => {
   }
 });
 
-// Ruta para agregar un producto a la cesta de un usuario
+// Ruta para crear o añadir un producto a la cesta
 app.post('/cesta', (req, res) => {
-  const { username, product } = req.body;
+  const { username, product } = req.body;  // Obtenemos los datos enviados en el cuerpo de la solicitud
 
-  // Verifica que los datos recibidos son correctos
-  console.log('Datos recibidos:', req.body); // Verifica la estructura de los datos
-
-  // Asegúrate de que el producto contiene todos los campos necesarios
+  // Verificar que los datos necesarios están presentes
   if (!username || !product || !product.id || !product.name || !product.price || !product.image) {
     return res.status(400).json({ message: 'Datos incompletos para agregar el producto a la cesta' });
   }
@@ -99,7 +95,6 @@ app.post('/cesta', (req, res) => {
       carts = JSON.parse(fs.readFileSync(cartFilePath, 'utf8'));
     }
 
-    // Buscar la cesta del usuario
     let userCart = carts.find(cart => cart.username === username);
 
     if (!userCart) {
@@ -108,16 +103,64 @@ app.post('/cesta', (req, res) => {
       carts.push(userCart);
     }
 
-    // Añadir el producto a la cesta
-    userCart.products.push(product);
+    // Verifica si el producto ya está en la cesta
+    const productExists = userCart.products.some(p => p.id === product.id);
+    if (productExists) {
+      return res.status(400).json({ message: 'El producto ya está en la cesta' });
+    }
 
-    // Guardar los cambios en el archivo carts.json
+    userCart.products.push(product);  // Añadir el producto a la cesta
     fs.writeFileSync(cartFilePath, JSON.stringify(carts, null, 2));
 
     res.status(201).json({ message: 'Producto añadido a la cesta con éxito' });
 
   } catch (error) {
-    res.status(500).json({ message: "Error al agregar el producto a la cesta", error: error.message });
+    console.error('Error al agregar el producto a la cesta:', error); // Captura más detalles del error
+    res.status(500).json({ message: 'Error al agregar el producto a la cesta', error: error.message });
+  }
+});
+
+// Ruta para actualizar la cesta de un usuario
+app.put('/cesta/:username', (req, res) => {
+  const { username } = req.params;
+  const updatedCart = req.body;
+  const cartFilePath = path.join(__dirname, 'carts.json');
+
+  try {
+    let carts = JSON.parse(fs.readFileSync(cartFilePath, 'utf8'));
+
+    const cartIndex = carts.findIndex(cart => cart.username === username);
+    if (cartIndex === -1) {
+      return res.status(404).json({ message: 'Cesta no encontrada' });
+    }
+
+    carts[cartIndex] = updatedCart;
+    fs.writeFileSync(cartFilePath, JSON.stringify(carts, null, 2));
+
+    res.json(updatedCart);  // Devuelve la cesta actualizada
+  } catch (error) {
+    res.status(500).json({ message: "Error al actualizar la cesta", error: error.message });
+  }
+});
+
+// Ruta para iniciar sesión y obtener el nombre del usuario
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  const usersFilePath = path.join(__dirname, 'data.json');
+
+  try {
+    const users = JSON.parse(fs.readFileSync(usersFilePath, 'utf8'));
+
+    const user = users.find(u => u.username === username && u.password === password);
+
+    if (user) {
+      res.json({ message: 'Login exitoso', username: user.username });
+    } else {
+      res.status(401).json({ message: 'Credenciales inválidas' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error al leer los usuarios', error: error.message });
   }
 });
 

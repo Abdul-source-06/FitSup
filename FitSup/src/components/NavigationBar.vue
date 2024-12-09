@@ -20,10 +20,10 @@
           <router-link to="/home" class="hover:text-gray-400" @click="closeMenu">Home</router-link>
         </li>
         <li class="uppercase py-2 hover:scale-110 transform transition-all duration-200">
-          <router-link to="/profile" class="hover:text-gray-400" @click="closeMenu">Perfil</router-link>
+          <router-link to="/profile" class="hover:text-gray-400" @click="closeMenu">Profile</router-link>
         </li>
         <li class="uppercase py-2 hover:scale-110 transform transition-all duration-200">
-          <router-link to="/Cesta" class="hover:text-gray-400" @click="closeMenu">Cesta</router-link>
+          <router-link to="/Cesta" class="hover:text-gray-400" @click="closeMenu">Basket</router-link>
         </li>
       </ul>
     </div>

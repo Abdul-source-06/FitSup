@@ -58,7 +58,10 @@ export default {
         const user = users.find(u => u.username === username.value && u.password === password.value);
 
         if (user) {
-          // Si las credenciales son correctas, redirigir al menú
+          // Si las credenciales son correctas, guardar en localStorage
+          localStorage.setItem('username', user.username);
+
+          // Redirigir al menú
           router.push('/home');  // Redirige a la ruta Home
         } else {
           // Si el usuario no se encuentra o la contraseña es incorrecta

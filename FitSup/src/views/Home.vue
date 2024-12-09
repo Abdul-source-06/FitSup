@@ -1,6 +1,11 @@
 <template>
   <div class="container mx-auto py-8 px-4">
-    <h1 class="text-4xl font-bold mb-8 text-center zoom-animation">¡Mejores Suplementos!</h1>
+    <!-- Mostrar nombre del usuario -->
+    <div v-if="username" class="text-center text-4xl font-bold mb-4">
+      ¡Hola, {{ username }}!
+    </div>
+
+    <h1 class="text-3xl font-bold mb-8 text-center zoom-animation">¡Mejores Suplementos!</h1>
 
     <!-- Filtro de búsqueda -->
     <search-bar :searchQuery="searchQuery" @update:searchQuery="searchQuery = $event" />
@@ -24,8 +29,11 @@
         <p class="font-bold text-gray-900 mt-2">${{ selectedProduct.price }}</p>
 
         <!-- Botón Añadir a la cesta -->
-        <button @click="addToCart" class="mt-4 bg-green-500 text-white py-2 px-6 rounded-md hover:bg-green-600 transition duration-200">
-          Add
+        <button 
+          @click="addToCart" 
+          class="mt-4 bg-green-500 text-white py-2 px-6 rounded-md hover:bg-green-600 transition duration-200"
+        >
+          Añadir a la cesta
         </button>
         
         <!-- Botón de cerrar -->
@@ -38,7 +46,7 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import axios from 'axios'; // Para hacer la llamada al backend
 import SearchBar from '@/components/SearchBar.vue';
 import ProductCard from '@/components/ProductCard.vue';
@@ -51,9 +59,10 @@ export default {
   },
   setup() {
     const searchQuery = ref('');
+    const username = ref(localStorage.getItem('username')); // Obtener el nombre de usuario de localStorage
     const products = ref([
-      { id: 1, name: 'Proteína Whey', description: 'Proteína de alta calidad para crecimiento muscular.', price: 29.99, image: 'https://via.placeholder.com/150' },
-      { id: 2, name: 'Creatina', description: 'Mejora el rendimiento físico y fuerza.', price: 19.99, image: 'https://via.placeholder.com/150' },
+      { id: 1, name: 'Proteína Whey', description: 'Proteína de alta calidad para crecimiento muscular.', price: 29.99, image: '/fotos/whey.avif' },
+      { id: 2, name: 'Creatina', description: 'Mejora el rendimiento físico y fuerza.', price: 19.99, image: '/fotos/creatina.jpg' },
       { id: 3, name: 'BCAA', description: 'Aminoácidos de cadena ramificada para recuperación.', price: 15.99, image: 'https://via.placeholder.com/150' },
       { id: 4, name: 'Multivitaminas', description: 'Vitaminas esenciales para la salud general.', price: 12.99, image: 'https://via.placeholder.com/150' },
       { id: 5, name: 'Omega 3', description: 'Aceite de pescado para la salud cardiovascular.', price: 18.99, image: 'https://via.placeholder.com/150' },
@@ -62,6 +71,7 @@ export default {
       { id: 8, name: 'Caseína', description: 'Proteína de absorción lenta para la noche.', price: 34.99, image: 'https://via.placeholder.com/150' },
     ]);
     const selectedProduct = ref(null);
+    const isLoggedIn = ref(false); // Para saber si el usuario está logueado
 
     // Filtro de productos según la búsqueda
     const filteredProducts = computed(() =>
@@ -69,6 +79,36 @@ export default {
         product.name.toLowerCase().includes(searchQuery.value.toLowerCase())
       )
     );
+
+    // Función para iniciar sesión
+    const loginUser = async (usernameInput, passwordInput) => {
+      try {
+        const response = await axios.post('http://localhost:3000/login', {
+          username: usernameInput,
+          password: passwordInput,
+        });
+
+        if (response.data.success) {
+          username.value = response.data.username;
+          localStorage.setItem('username', username.value); // Guardar en localStorage
+          isLoggedIn.value = true; // El usuario ahora está logueado
+        } else {
+          alert('Credenciales incorrectas');
+        }
+      } catch (error) {
+        console.error('Error al autenticar al usuario:', error.response?.data?.message || error.message);
+        alert('Error al iniciar sesión');
+      }
+    };
+
+    // Verificamos si el usuario está en localStorage o no
+    onMounted(() => {
+      if (username.value) {
+        isLoggedIn.value = true; // El usuario ya está logueado
+      } else {
+        isLoggedIn.value = false; // No está logueado
+      }
+    });
 
     // Abrir cuadro de detalles del producto
     const openProductDetail = (product) => {
@@ -79,30 +119,48 @@ export default {
     const closeProductDetail = () => {
       selectedProduct.value = null;
     };
-    
-   // Añadir producto a la cesta
-   const addToCart = async () => {
-  if (!selectedProduct.value) {
-    alert("No hay producto seleccionado");
-    return;
-  }
 
-  const product = selectedProduct.value;
-  const username = "usuarioPrueba"; // Aquí deberías obtener el nombre de usuario del estado de la aplicación
+    // Añadir producto a la cesta
+    const addToCart = async () => {
+      if (!selectedProduct.value || !username.value) {
+        alert('Por favor, inicia sesión antes de añadir productos a la cesta');
+        return;
+      }
 
-  console.log("Producto a agregar:", product); // Verifica qué datos se están enviando
+      const product = selectedProduct.value;
 
-  try {
-    const response = await axios.post('http://localhost:3000/cesta', {
-      username,
-      product, // El objeto completo que contiene todos los campos
-    });
-    alert('Producto añadido a la cesta');
-  } catch (error) {
-    console.error('Error al añadir el producto a la cesta:', error.response?.data?.message || error.message);
-    alert('Error al añadir el producto a la cesta');
-  }
-};
+      try {
+        // Primero, obtenemos la cesta existente del usuario
+        const response = await axios.get(`http://localhost:3000/carts?username=${username.value}`);
+        
+        console.log('Respuesta GET carrito:', response.data);  // Verifica la respuesta
+
+        if (response.data.length > 0) {
+          // Si ya existe la cesta del usuario, la actualizamos
+          const userCart = response.data[0];
+          userCart.products.push(product);  // Añadir el producto a la cesta del usuario
+
+          // Verifica si el producto se añadió correctamente
+          console.log('Cesta actualizada:', userCart);
+
+          // Enviar los datos actualizados al backend
+          const putResponse = await axios.put(`http://localhost:3000/carts/${userCart.id}`, userCart);
+          console.log('Respuesta PUT:', putResponse.data);  // Verifica la respuesta de PUT
+        } else {
+          // Si no existe la cesta del usuario, la creamos
+          const postResponse = await axios.post('http://localhost:3000/carts', {
+            username: username.value,
+            products: [product]  // Crear un nuevo array con el producto añadido
+          });
+          console.log('Respuesta POST:', postResponse.data);  // Verifica la respuesta de POST
+        }
+
+        alert('Producto añadido a la cesta');
+      } catch (error) {
+        console.error('Error al añadir el producto a la cesta:', error.response?.data?.message || error.message);
+        alert('Error al añadir el producto a la cesta');
+      }
+    };
 
     return {
       searchQuery,
@@ -111,19 +169,10 @@ export default {
       openProductDetail,
       closeProductDetail,
       addToCart,
+      username,
+      loginUser, // Función de login
+      isLoggedIn, // Variable para saber si el usuario está logueado
     };
   },
 };
 </script>
-
-<style scoped>
-@keyframes zoomInOut {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
-}
-
-.zoom-animation {
-  animation: zoomInOut 2s ease-in-out infinite;
-}
-</style>
