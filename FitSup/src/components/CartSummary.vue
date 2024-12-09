@@ -1,9 +1,13 @@
 <template>
-  <div class="cart-summary">
-    <h3>Resum de la Cistella</h3>
-    <p>Total d'articles: <span class="highlight">{{ totalItems }}</span></p>
-    <p>Preu total: <span class="highlight">{{ totalPrice.toFixed(2) }} €</span></p>
-    <button class="checkout-button" @click="checkout">✅ Finalitzar Compra</button>
+  <div class="cart-summary bg-amber-50 border border-amber-600 p-5 rounded-xl text-center animate-fadeIn">
+    <h3 class="text-xl font-semibold">Resum de la Cistella</h3>
+    <p class="text-lg">Total d'articles: <span class="highlight text-amber-600 font-bold">{{ totalItems }}</span></p>
+    <p class="text-lg">Preu total: <span class="highlight text-amber-600 font-bold">{{ totalPrice.toFixed(2) }} €</span></p>
+    <button 
+      class="checkout-button bg-gradient-to-r from-amber-600 to-amber-400 text-white px-6 py-3 text-lg rounded-full cursor-pointer shadow-lg transform transition-all hover:scale-105 hover:shadow-xl"
+      @click="checkout">
+      ✅ Finalitzar Compra
+    </button>
   </div>
 </template>
 
@@ -29,34 +33,14 @@ export default {
 </script>
 
 <style scoped>
-.cart-summary {
-  background: #fef7f3;
-  border: 1px solid #ff5722;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  animation: fadeIn 0.5s ease-in-out;
-}
-
-.highlight {
-  color: #ff5722;
-  font-weight: bold;
-}
-
-.checkout-button {
-  background: linear-gradient(90deg, #ff5722, #ff8c42);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 25px;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.3s;
-}
-
-.checkout-button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
