@@ -48,7 +48,7 @@ const routes = [
         component: Cesta,
       },
       {
-        path: "about-us",  // Nueva ruta para About Us
+        path: "about-us", 
         name: "AboutUs",
         component: AboutUs,
       },

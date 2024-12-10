@@ -8,6 +8,11 @@
       @click="checkout">
       ✅ Finalitzar Compra
     </button>
+    <button 
+      class="payment-button bg-blue-500 text-white px-6 py-3 text-lg rounded-full cursor-pointer shadow-lg transform transition-all hover:scale-105 hover:shadow-xl mt-4"
+      @click="goToPayment">
+      💳 Pagar
+    </button>
   </div>
 </template>
 
@@ -27,6 +32,10 @@ export default {
   methods: {
     checkout() {
       this.$emit("checkout");
+    },
+    // Nueva función para navegar al formulario de pago
+    goToPayment() {
+      this.$router.push("/payment"); // Navega a la ruta de pago
     },
   },
 };

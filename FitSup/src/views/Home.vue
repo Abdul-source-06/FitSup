@@ -4,7 +4,7 @@
     <!-- Filtro de búsqueda -->
     <search-bar :searchQuery="searchQuery" @update:searchQuery="searchQuery = $event" />
 
-    <h1 class="text-4xl font-extrabold text-center mb-8 text-white shadow-xl transform transition-all duration-700 ease-in-out animate-fadeIn bg-black p-8 rounded-lg">
+    <h1 class="text-4xl font-extrabold text-center mb-9 text-white shadow-xl transform transition-all duration-700 ease-in-out animate-fadeIn bg-black p-6 rounded-lg">
   ¡Los mejores Suplementos!
 </h1>
 
@@ -37,7 +37,7 @@
         </button>
         
         <!-- Botón de cerrar -->
-        <button @click="closeProductDetail" class="mt-4 text-gray-500 hover:text-gray-700">
+        <button @click="closeProductDetail" class=" ml-40 mt-4 text-gray-500 hover:text-gray-700">
           Cerrar
         </button>
       </div>

@@ -8,7 +8,7 @@
       :alt="product.name" 
       class="w-[50%] h-auto object-cover rounded-md mb-4" 
     />
-    <h2 class="text-xl font-semibold text-gray-800">{{ product.name }}</h2>
+    <h2 class="text-xl font-semibold text-black">{{ product.name }}</h2>
     <p class="text-gray-600 mb-2">{{ product.description }}</p>
     <p class="font-bold text-gray-900">${{ product.price }}</p>
 
